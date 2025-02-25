@@ -2,9 +2,12 @@ const express = require("express");
 const multer = require("multer");
 const pdfParse = require("pdf-parse");
 const fs = require("fs");
+const cors = require("cors"); // Add this line
 
 const app = express();
 const port = 9000;
+
+app.use(cors()); // Add this line
 
 // Set up multer for file upload
 const upload = multer({ dest: "uploads/" });
@@ -23,6 +26,8 @@ app.post("/upload", upload.single("file"), async (req, res) => {
         
         // Remove the uploaded file after parsing
         fs.unlinkSync(filePath);
+
+        console.log(data.text);
 
         res.json({ text: data.text });
     } catch (error) {
